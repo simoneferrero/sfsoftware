@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "my-bottles": "apps/my-bottles",
+    "my-bottles-e2e": "apps/my-bottles-e2e"
+  }
+}
