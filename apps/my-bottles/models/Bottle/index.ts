@@ -1,16 +1,6 @@
 import mongoose from 'mongoose';
 
-export type Bottle = {
-  category: 'WINE' | 'BEER' | 'SPIRIT';
-  imageUrl?: string;
-  name: string;
-  quantity: number;
-  rating: number;
-  type?: string;
-  user: string;
-  volume: string;
-  year?: number;
-};
+import { Bottle } from '../../types/Bottle';
 
 const BottleSchema = new mongoose.Schema<Bottle>({
   category: { type: String, required: true },
