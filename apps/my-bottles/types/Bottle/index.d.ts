@@ -8,18 +8,18 @@ export interface Bottle {
   quantity: number;
   rating: number;
   type?: string;
-  user: string;
-  volume: string;
+  user?: string;
+  volume: number;
   year?: number;
 }
 
 export interface BottleType {
-  label: string;
+  text: string;
   value: string;
 }
 
 export interface BottleCategory {
-  label: 'Wine' | 'Beer' | 'Spirit';
+  text: 'Wine' | 'Beer' | 'Spirit';
   value: 'WINE' | 'BEER' | 'SPIRIT';
   showYear?: boolean;
   types?: BottleType[];

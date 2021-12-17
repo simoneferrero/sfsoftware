@@ -2,7 +2,8 @@ import { RootState } from '../../app/store';
 
 import { useUser } from '@auth0/nextjs-auth0';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggle } from './sidePanelSlice';
+import { setVisible } from './sidePanelSlice';
+import { setVisible as setVisibleBottleForm } from '../bottleForm/bottleFormSlice';
 
 import { Header, Image, Menu, Segment, Sidebar } from 'semantic-ui-react';
 
@@ -13,7 +14,12 @@ interface Props {
 const SidePanel = ({ children }: Props) => {
   const visible = useSelector((state: RootState) => state.sidePanel.visible);
   const dispatch = useDispatch();
-  const { user, error, isLoading } = useUser();
+  const { user } = useUser();
+
+  const handleAddBottle = () => {
+    dispatch(setVisible(false));
+    dispatch(setVisibleBottleForm(true));
+  };
 
   return (
     <Sidebar.Pushable>
@@ -22,7 +28,7 @@ const SidePanel = ({ children }: Props) => {
         animation="overlay"
         compact
         icon
-        onHide={() => dispatch(toggle())}
+        onHide={() => dispatch(setVisible(false))}
         vertical
         visible={visible}
       >
@@ -36,18 +42,13 @@ const SidePanel = ({ children }: Props) => {
             Welcome back, {user?.given_name}!
           </span>
         </Menu.Header>
-        <Menu.Item
-          name="add"
-          onClick={() => console.log('clicked')}
-          position="left"
-        >
+        <Menu.Item name="add" onClick={handleAddBottle} position="left">
           <Header as="h5" icon="add" content="Add Bottle" />
         </Menu.Item>
         <Menu.Item link href="/api/auth/logout">
           <Header as="h5" icon="external" content="Logout" />
         </Menu.Item>
       </Sidebar>
-
       <Sidebar.Pusher dimmed={visible}>{children}</Sidebar.Pusher>
     </Sidebar.Pushable>
   );

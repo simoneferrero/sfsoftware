@@ -12,12 +12,12 @@ export const sidePanelSlice = createSlice({
   name: 'sidePanel',
   initialState,
   reducers: {
-    toggle: (state) => {
-      state.visible = !state.visible;
+    setVisible: (state, action) => {
+      state.visible = action.payload;
     },
   },
 });
 
-export const { toggle } = sidePanelSlice.actions;
+export const { setVisible } = sidePanelSlice.actions;
 
 export default sidePanelSlice.reducer;

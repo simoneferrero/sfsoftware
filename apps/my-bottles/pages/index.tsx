@@ -2,26 +2,19 @@ import { useUser } from '@auth0/nextjs-auth0';
 
 import { Header } from 'semantic-ui-react';
 import SidePanel from '../features/sidePanel/SidePanel';
+import BottleForm from '../features/bottleForm/BottleForm';
 import AppHeader from '../components/AppHeader';
 import BottleContainer from '../features/bottleContainer/BottleContainer';
 
 import styled from 'styled-components';
 
-const StyledPage = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  align-items: stretch;
-  align-content: stretch;
-`;
-
 const Index = () => {
   const { user } = useUser();
 
   return (
-    <StyledPage>
+    <div>
+      <AppHeader />
       <SidePanel>
-        <AppHeader />
         <main>
           {!user ? (
             <Header as="h3" textAlign="center">
@@ -32,7 +25,8 @@ const Index = () => {
           )}
         </main>
       </SidePanel>
-    </StyledPage>
+      <BottleForm />
+    </div>
   );
 };
 

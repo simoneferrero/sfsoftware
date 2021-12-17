@@ -2,88 +2,88 @@ import { BottleType, BottleCategory } from '../../types/Bottle';
 
 export const WINE_TYPES: BottleType[] = [
   {
-    label: 'Red',
+    text: 'Red',
     value: 'RED',
   },
   {
-    label: 'White',
+    text: 'White',
     value: 'WHITE',
   },
   {
-    label: 'Rosé',
+    text: 'Rosé',
     value: 'ROSE',
   },
   {
-    label: 'Sparkling',
+    text: 'Sparkling',
     value: 'SPARKLING',
   },
   {
-    label: 'Dessert',
+    text: 'Dessert',
     value: 'DESSERT',
   },
   {
-    label: 'Other',
+    text: 'Other',
     value: 'OTHER',
   },
 ];
 
 export const BEER_TYPES: BottleType[] = [
   {
-    label: 'Lager',
+    text: 'Lager',
     value: 'LAGER',
   },
   {
-    label: 'Porter',
+    text: 'Porter',
     value: 'PORTER',
   },
   {
-    label: 'Stout',
+    text: 'Stout',
     value: 'STOUT',
   },
   {
-    label: 'Blonde Ale',
+    text: 'Blonde Ale',
     value: 'BLONDE_ALE',
   },
   {
-    label: 'Brown Ale',
+    text: 'Brown Ale',
     value: 'BROWN_ALE',
   },
   {
-    label: 'Pale Ale',
+    text: 'Pale Ale',
     value: 'PALE_ALE',
   },
   {
-    label: 'Sour Ale',
+    text: 'Sour Ale',
     value: 'SOUR_ALE',
   },
   {
-    label: 'IPA',
+    text: 'IPA',
     value: 'IPA',
   },
   {
-    label: 'Wheat',
+    text: 'Wheat',
     value: 'WHEAT',
   },
   {
-    label: 'Other',
+    text: 'Other',
     value: 'OTHER',
   },
 ];
 
 export const BOTTLE_CATEGORIES: BottleCategory[] = [
   {
-    label: 'Wine',
+    text: 'Wine',
     value: 'WINE',
     showYear: true,
     types: WINE_TYPES,
   },
   {
-    label: 'Beer',
+    text: 'Beer',
     value: 'BEER',
     types: BEER_TYPES,
   },
   {
-    label: 'Spirit',
+    text: 'Spirit',
     value: 'SPIRIT',
   },
 ];

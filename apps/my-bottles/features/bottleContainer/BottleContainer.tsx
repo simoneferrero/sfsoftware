@@ -5,6 +5,13 @@ import { selectAll, getBottles } from './bottleContainerSlice';
 import { Card, Header } from 'semantic-ui-react';
 import BottleCard from '../../components/BottleCard';
 
+import styled from 'styled-components';
+
+const StyledBottleContainer = styled(Card.Group)`
+  margin: 1em;
+  padding: 0.5em;
+`;
+
 const BottleContainer = () => {
   const dispatch = useDispatch();
   const bottles = useSelector(selectAll);
@@ -22,13 +29,13 @@ const BottleContainer = () => {
   }
 
   return (
-    <Card.Group stackable centered>
+    <StyledBottleContainer stackable centered>
       {bottles
         .sort((a, b) => (a.name > b.name ? 1 : -1))
         .map((bottle) => (
           <BottleCard key={String(bottle._id)} {...bottle} />
         ))}
-    </Card.Group>
+    </StyledBottleContainer>
   );
 };
 

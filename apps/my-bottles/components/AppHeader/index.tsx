@@ -1,6 +1,6 @@
 import { useUser } from '@auth0/nextjs-auth0';
 import { useDispatch } from 'react-redux';
-import { toggle } from '../../features/sidePanel/sidePanelSlice';
+import { setVisible } from '../../features/sidePanel/sidePanelSlice';
 
 import { Button, Header, Icon, Segment } from 'semantic-ui-react';
 
@@ -12,6 +12,8 @@ const StyledHeader = styled.header`
   padding: 0.5rem 1rem;
   display: flex;
   margin-bottom: 1rem;
+  z-index: 900;
+  background-color: #fff;
 
   .menu-button {
     height: max-content;
@@ -41,7 +43,7 @@ const AppHeader = () => {
           icon="bars"
           size="large"
           className="menu-button"
-          onClick={() => dispatch(toggle())}
+          onClick={() => dispatch(setVisible(true))}
         />
       )}
       <Header as="h1" icon textAlign="center">
