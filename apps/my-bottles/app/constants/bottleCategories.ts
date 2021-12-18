@@ -1,4 +1,4 @@
-import { BottleType, BottleCategory } from '../../types/Bottle';
+import { BottleType, BottleCategory } from '../../types/Bottle'
 
 export const WINE_TYPES: BottleType[] = [
   {
@@ -25,7 +25,7 @@ export const WINE_TYPES: BottleType[] = [
     text: 'Other',
     value: 'OTHER',
   },
-];
+]
 
 export const BEER_TYPES: BottleType[] = [
   {
@@ -68,7 +68,7 @@ export const BEER_TYPES: BottleType[] = [
     text: 'Other',
     value: 'OTHER',
   },
-];
+]
 
 export const BOTTLE_CATEGORIES: BottleCategory[] = [
   {
@@ -86,4 +86,4 @@ export const BOTTLE_CATEGORIES: BottleCategory[] = [
     text: 'Spirit',
     value: 'SPIRIT',
   },
-];
+]

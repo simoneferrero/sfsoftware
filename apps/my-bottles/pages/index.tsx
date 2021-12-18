@@ -1,12 +1,12 @@
-import { useUser } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0'
 
-import { Header } from 'semantic-ui-react';
-import SidePanel from '../features/sidePanel/SidePanel';
-import BottleForm from '../features/bottles/BottleForm';
-import AppHeader from '../components/AppHeader';
-import BottleContainer from '../features/bottles/BottleContainer';
+import { Header } from 'semantic-ui-react'
+import SidePanel from '../features/sidePanel/SidePanel'
+import BottleForm from '../features/bottles/BottleForm'
+import AppHeader from '../components/AppHeader'
+import BottleContainer from '../features/bottles/BottleContainer'
 
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -18,10 +18,10 @@ const StyledContainer = styled.div`
   main {
     padding-top: 1em;
   }
-`;
+`
 
 const Index = () => {
-  const { user } = useUser();
+  const { user } = useUser()
 
   return (
     <StyledContainer>
@@ -40,7 +40,7 @@ const Index = () => {
       </SidePanel>
       <BottleForm />
     </StyledContainer>
-  );
-};
+  )
+}
 
-export default Index;
+export default Index

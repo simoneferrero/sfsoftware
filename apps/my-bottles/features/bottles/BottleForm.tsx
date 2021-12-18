@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useDropzone } from 'react-dropzone';
+import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useDropzone } from 'react-dropzone'
 
 import {
   setVisibleForm,
@@ -9,13 +9,13 @@ import {
   selectVisibleForm,
   selectSelectedBottle,
   selectLoading,
-} from '../bottles/slice';
+} from '../bottles/slice'
 
-import { Button, Form, Input, Loader, Modal, Select } from 'semantic-ui-react';
+import { Button, Form, Input, Loader, Modal, Select } from 'semantic-ui-react'
 
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import { BOTTLE_CATEGORIES } from '../../app/constants/bottleCategories';
+import { BOTTLE_CATEGORIES } from '../../app/constants/bottleCategories'
 
 const StyledDropzone = styled.div`
   flex: 1;
@@ -31,64 +31,64 @@ const StyledDropzone = styled.div`
   color: #bdbdbd;
   outline: none;
   transition: border 0.24s ease-in-out;
-`;
+`
 
 const SidePanel = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const selectedBottle = useSelector(selectSelectedBottle);
-  const loading = useSelector(selectLoading);
+  const selectedBottle = useSelector(selectSelectedBottle)
+  const loading = useSelector(selectLoading)
 
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState(null);
-  const [type, setType] = useState(null);
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [volume, setVolume] = useState(0);
-  const [quantity, setQuantity] = useState(0);
-  const [rating, setRating] = useState(0);
-  const [image, setImage] = useState(null);
-  const visible = useSelector(selectVisibleForm);
+  const [name, setName] = useState('')
+  const [category, setCategory] = useState(null)
+  const [type, setType] = useState(null)
+  const [year, setYear] = useState(new Date().getFullYear())
+  const [volume, setVolume] = useState(0)
+  const [quantity, setQuantity] = useState(0)
+  const [rating, setRating] = useState(0)
+  const [image, setImage] = useState(null)
+  const visible = useSelector(selectVisibleForm)
 
   useEffect(() => {
-    setName(selectedBottle?.name);
-    setCategory(selectedBottle?.category);
-    setType(selectedBottle?.type);
-    setYear(selectedBottle?.year);
-    setVolume(selectedBottle?.volume);
-    setQuantity(selectedBottle?.quantity);
-    setRating(selectedBottle?.rating);
-  }, [selectedBottle]);
+    setName(selectedBottle?.name)
+    setCategory(selectedBottle?.category)
+    setType(selectedBottle?.type)
+    setYear(selectedBottle?.year)
+    setVolume(selectedBottle?.volume)
+    setQuantity(selectedBottle?.quantity)
+    setRating(selectedBottle?.rating)
+  }, [selectedBottle])
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     maxFiles: 1,
     onDrop: ([file]) => {
-      setImage(file);
+      setImage(file)
     },
-  });
+  })
 
   const selectedCategory = BOTTLE_CATEGORIES.find(
     ({ value }) => value === category
-  );
+  )
 
   const resetForm = () => {
-    setName('');
-    setCategory(null);
-    setType(null);
-    setYear(0);
-    setVolume(0);
-    setQuantity(0);
-    setRating(0);
-    setImage(null);
-  };
+    setName('')
+    setCategory(null)
+    setType(null)
+    setYear(0)
+    setVolume(0)
+    setQuantity(0)
+    setRating(0)
+    setImage(null)
+  }
 
   const handleClose = () => {
-    resetForm();
-    dispatch(setVisibleForm(false));
-  };
+    resetForm()
+    dispatch(setVisibleForm(false))
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const formValues = {
       _id: selectedBottle?._id,
@@ -100,14 +100,14 @@ const SidePanel = () => {
       ...(selectedCategory.types && { type }),
       ...(selectedCategory.showYear && { year }),
       ...(image && { image }),
-    };
+    }
 
     dispatch(
       selectedBottle
         ? modifyBottle({ formValues, resetForm })
         : addBottle({ formValues, resetForm })
-    );
-  };
+    )
+  }
 
   return (
     <Modal
@@ -235,7 +235,7 @@ const SidePanel = () => {
         />
       </Modal.Actions>
     </Modal>
-  );
-};
+  )
+}
 
-export default SidePanel;
+export default SidePanel

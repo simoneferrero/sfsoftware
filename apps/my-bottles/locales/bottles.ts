@@ -20,6 +20,6 @@ const locales = {
   SOUR_ALE: 'Sour Ale',
   IPA: 'IPA',
   WHEAT: 'Wheat',
-};
+}
 
-export default locales;
+export default locales

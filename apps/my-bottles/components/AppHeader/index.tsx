@@ -1,10 +1,10 @@
-import { useUser } from '@auth0/nextjs-auth0';
-import { useDispatch } from 'react-redux';
-import { setVisible } from '../../features/sidePanel/sidePanelSlice';
+import { useUser } from '@auth0/nextjs-auth0'
+import { useDispatch } from 'react-redux'
+import { setVisible } from '../../features/sidePanel/sidePanelSlice'
 
-import { Button, Header, Icon, Segment } from 'semantic-ui-react';
+import { Button, Header, Icon, Segment } from 'semantic-ui-react'
 
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const StyledHeader = styled.header`
   position: sticky;
@@ -29,11 +29,11 @@ const StyledHeader = styled.header`
       font-size: 0.8em !important;
     }
   }
-`;
+`
 
 const AppHeader = () => {
-  const dispatch = useDispatch();
-  const { user, error, isLoading } = useUser();
+  const dispatch = useDispatch()
+  const { user, error, isLoading } = useUser()
 
   return (
     <StyledHeader>
@@ -51,7 +51,7 @@ const AppHeader = () => {
         MY BOTTLES
       </Header>
     </StyledHeader>
-  );
-};
+  )
+}
 
-export default AppHeader;
+export default AppHeader

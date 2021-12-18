@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react';
+import { render } from '@testing-library/react'
 
-import AppHeader from '.';
+import AppHeader from '.'
 
 describe('AppHeader', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<AppHeader />);
-    expect(baseElement).toBeTruthy();
-  });
-});
+    const { baseElement } = render(<AppHeader />)
+    expect(baseElement).toBeTruthy()
+  })
+})

@@ -1,14 +1,14 @@
-import { Bottle } from '../../types/Bottle';
+import { Bottle } from '../../types/Bottle'
 
-import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux'
 
-import { setSelectedBottle } from '../../features/bottles/slice';
+import { setSelectedBottle } from '../../features/bottles/slice'
 
-import { Button, Card, Image, Rating } from 'semantic-ui-react';
+import { Button, Card, Image, Rating } from 'semantic-ui-react'
 
-import bottleLocales from '../../locales/bottles';
+import bottleLocales from '../../locales/bottles'
 
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const StyledCard = styled(Card)`
   .imageContainer {
@@ -35,7 +35,7 @@ const StyledCard = styled(Card)`
       margin: 0 !important;
     }
   }
-`;
+`
 
 const BottleCard = ({
   _id,
@@ -48,11 +48,11 @@ const BottleCard = ({
   volume,
   year,
 }: Bottle) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const description = `${year ? year + ' ' : ''}${
     type ? bottleLocales[type] + ' ' : ''
-  }${bottleLocales[category]}`;
+  }${bottleLocales[category]}`
 
   return (
     <StyledCard>
@@ -79,7 +79,7 @@ const BottleCard = ({
         </div>
       </Card.Content>
     </StyledCard>
-  );
-};
+  )
+}
 
-export default BottleCard;
+export default BottleCard

@@ -1,25 +1,25 @@
-import { RootState } from '../../app/store';
+import { RootState } from '../../app/store'
 
-import { useUser } from '@auth0/nextjs-auth0';
-import { useSelector, useDispatch } from 'react-redux';
-import { setVisible } from './sidePanelSlice';
-import { setVisibleForm } from '../bottles/slice';
+import { useUser } from '@auth0/nextjs-auth0'
+import { useSelector, useDispatch } from 'react-redux'
+import { setVisible } from './sidePanelSlice'
+import { setVisibleForm } from '../bottles/slice'
 
-import { Header, Image, Menu, Segment, Sidebar } from 'semantic-ui-react';
+import { Header, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
 
 interface Props {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const SidePanel = ({ children }: Props) => {
-  const visible = useSelector((state: RootState) => state.sidePanel.visible);
-  const dispatch = useDispatch();
-  const { user } = useUser();
+  const visible = useSelector((state: RootState) => state.sidePanel.visible)
+  const dispatch = useDispatch()
+  const { user } = useUser()
 
   const handleAddBottle = () => {
-    dispatch(setVisible(false));
-    dispatch(setVisibleForm(true));
-  };
+    dispatch(setVisible(false))
+    dispatch(setVisibleForm(true))
+  }
 
   return (
     <Sidebar.Pushable>
@@ -51,7 +51,7 @@ const SidePanel = ({ children }: Props) => {
       </Sidebar>
       <Sidebar.Pusher dimmed={visible}>{children}</Sidebar.Pusher>
     </Sidebar.Pushable>
-  );
-};
+  )
+}
 
-export default SidePanel;
+export default SidePanel

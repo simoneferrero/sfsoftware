@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
-import { Bottle } from '../../types/Bottle';
+import { Bottle } from '../../types/Bottle'
 
 const BottleSchema = new mongoose.Schema<Bottle>({
   category: { type: String, required: true },
@@ -12,6 +12,6 @@ const BottleSchema = new mongoose.Schema<Bottle>({
   user: { type: String, required: true },
   volume: { type: String, required: true },
   year: { type: Number, max: new Date().getFullYear() },
-});
+})
 
-export default mongoose.models.Bottle || mongoose.model('Bottle', BottleSchema);
+export default mongoose.models.Bottle || mongoose.model('Bottle', BottleSchema)
