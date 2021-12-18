@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAll, getBottles } from './bottleContainerSlice';
+import { selectAll, getBottles } from './slice';
 
 import { Card, Header } from 'semantic-ui-react';
 import BottleCard from '../../components/BottleCard';

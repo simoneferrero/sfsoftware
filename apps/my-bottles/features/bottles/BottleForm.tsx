@@ -2,7 +2,7 @@ import { RootState } from '../../app/store';
 
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setVisible, addBottle } from './bottleFormSlice';
+import { setVisibleForm, addBottle, selectVisibleForm } from '../bottles/slice';
 
 import { Button, Form, Input, Modal, Select } from 'semantic-ui-react';
 
@@ -16,7 +16,7 @@ const SidePanel = () => {
   const [volume, setVolume] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [rating, setRating] = useState(0);
-  const visible = useSelector((state: RootState) => state.bottleForm.visible);
+  const visible = useSelector(selectVisibleForm);
   const dispatch = useDispatch();
 
   const selectedCategory = BOTTLE_CATEGORIES.find(
@@ -35,7 +35,7 @@ const SidePanel = () => {
 
   const handleClose = () => {
     resetForm();
-    dispatch(setVisible(false));
+    dispatch(setVisibleForm(false));
   };
 
   const handleSubmit = (e) => {
@@ -57,7 +57,7 @@ const SidePanel = () => {
   return (
     <Modal
       onClose={handleClose}
-      onOpen={() => dispatch(setVisible(true))}
+      onOpen={() => dispatch(setVisibleForm(true))}
       open={visible}
     >
       <Modal.Header>ADD NEW BOTTLE</Modal.Header>

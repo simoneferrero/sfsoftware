@@ -3,7 +3,7 @@ import { RootState } from '../../app/store';
 import { useUser } from '@auth0/nextjs-auth0';
 import { useSelector, useDispatch } from 'react-redux';
 import { setVisible } from './sidePanelSlice';
-import { setVisible as setVisibleBottleForm } from '../bottleForm/bottleFormSlice';
+import { setVisibleForm } from '../bottles/slice';
 
 import { Header, Image, Menu, Segment, Sidebar } from 'semantic-ui-react';
 
@@ -18,7 +18,7 @@ const SidePanel = ({ children }: Props) => {
 
   const handleAddBottle = () => {
     dispatch(setVisible(false));
-    dispatch(setVisibleBottleForm(true));
+    dispatch(setVisibleForm(true));
   };
 
   return (
