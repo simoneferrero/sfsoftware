@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAll, getBottles } from './slice';
+import { selectAllBottles, getBottles } from './slice';
 
 import { Card, Header } from 'semantic-ui-react';
 import BottleCard from '../../components/BottleCard';
@@ -14,7 +14,7 @@ const StyledBottleContainer = styled(Card.Group)`
 
 const BottleContainer = () => {
   const dispatch = useDispatch();
-  const bottles = useSelector(selectAll);
+  const bottles = useSelector(selectAllBottles);
 
   useEffect(() => {
     dispatch(getBottles());

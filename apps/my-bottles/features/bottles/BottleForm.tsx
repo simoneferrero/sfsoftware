@@ -1,8 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 
-import { setVisibleForm, addBottle, selectVisibleForm } from '../bottles/slice';
+import {
+  setVisibleForm,
+  addBottle,
+  modifyBottle,
+  selectVisibleForm,
+  selectSelectedBottle,
+} from '../bottles/slice';
 
 import { Button, Form, Input, Modal, Select } from 'semantic-ui-react';
 
@@ -27,6 +33,7 @@ const StyledDropzone = styled.div`
 `;
 
 const SidePanel = () => {
+  const selectedBottle = useSelector(selectSelectedBottle);
   const [name, setName] = useState('');
   const [category, setCategory] = useState(null);
   const [type, setType] = useState(null);
@@ -37,6 +44,16 @@ const SidePanel = () => {
   const [image, setImage] = useState(null);
   const visible = useSelector(selectVisibleForm);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setName(selectedBottle?.name);
+    setCategory(selectedBottle?.category);
+    setType(selectedBottle?.type);
+    setYear(selectedBottle?.year);
+    setVolume(selectedBottle?.volume);
+    setQuantity(selectedBottle?.quantity);
+    setRating(selectedBottle?.rating);
+  }, [selectedBottle]);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
@@ -70,17 +87,22 @@ const SidePanel = () => {
     e.preventDefault();
 
     const formValues = {
+      _id: selectedBottle?._id,
       name,
       category,
-      ...(selectedCategory.types && { type }),
-      ...(selectedCategory.showYear && { year }),
       volume,
       quantity,
       rating,
-      image,
+      ...(selectedCategory.types && { type }),
+      ...(selectedCategory.showYear && { year }),
+      ...(image && { image }),
     };
 
-    dispatch(addBottle({ formValues, resetForm }));
+    dispatch(
+      selectedBottle
+        ? modifyBottle({ formValues, resetForm })
+        : addBottle({ formValues, resetForm })
+    );
   };
 
   return (
@@ -187,7 +209,7 @@ const SidePanel = () => {
                 <p>
                   {image
                     ? image.name
-                    : 'Drag and drop an image here, or click to select images'}
+                    : 'Drag and drop an image here, or click to select one from your device'}
                 </p>
               </StyledDropzone>
             </Form.Field>

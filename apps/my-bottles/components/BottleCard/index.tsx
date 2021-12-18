@@ -1,5 +1,9 @@
 import { Bottle } from '../../types/Bottle';
 
+import { useDispatch } from 'react-redux';
+
+import { setSelectedBottle } from '../../features/bottles/slice';
+
 import { Button, Card, Image, Rating } from 'semantic-ui-react';
 
 import bottleLocales from '../../locales/bottles';
@@ -34,6 +38,7 @@ const StyledCard = styled(Card)`
 `;
 
 const BottleCard = ({
+  _id,
   category,
   imageUrl,
   name,
@@ -43,9 +48,12 @@ const BottleCard = ({
   volume,
   year,
 }: Bottle) => {
+  const dispatch = useDispatch();
+
   const description = `${year ? year + ' ' : ''}${
     type ? bottleLocales[type] + ' ' : ''
   }${bottleLocales[category]}`;
+
   return (
     <StyledCard>
       <Card.Content textAlign="center">
@@ -62,7 +70,12 @@ const BottleCard = ({
         <div className="card-footer">
           <p>{quantity}x</p>
           <p>{volume}%</p>
-          <Button icon="pencil" circular basic />
+          <Button
+            icon="pencil"
+            circular
+            basic
+            onClick={() => dispatch(setSelectedBottle(String(_id)))}
+          />
         </div>
       </Card.Content>
     </StyledCard>

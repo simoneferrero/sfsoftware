@@ -95,12 +95,38 @@ export const addBottle = createAsyncThunk(
   }
 );
 
+export const modifyBottle = createAsyncThunk(
+  'bottles/modify',
+  async ({
+    formValues,
+    resetForm,
+  }: {
+    formValues: Bottle;
+    resetForm: () => void;
+  }) => {
+    const { _id, image, ...values } = formValues;
+    const imageUrl = await uploadImage(image);
+
+    const {
+      data: { data },
+    } = await axios.patch(`/api/bottles/${_id}`, { ...values, imageUrl });
+
+    resetForm();
+
+    return data;
+  }
+);
+
 export const bottlesSlice = createSlice({
   name: 'bottles',
   initialState,
   reducers: {
     setVisibleForm: (state, action) => {
       state.visibleForm = action.payload;
+    },
+    setSelectedBottle: (state, action) => {
+      state.selectedBottle = action.payload;
+      state.visibleForm = true;
     },
   },
   extraReducers: (builder) => {
@@ -130,30 +156,38 @@ export const bottlesSlice = createSlice({
       state.error = 'There was an error adding your bottle.';
       state.loading = false;
     });
+    builder.addCase(modifyBottle.pending, (state) => {
+      state.error = undefined;
+      state.loading = true;
+    });
+    builder.addCase(modifyBottle.fulfilled, (state, action) => {
+      bottlesAdapter.upsertOne(state, action.payload);
+      state.loading = false;
+      state.visibleForm = false;
+      state.selectedBottle = undefined;
+    });
+    builder.addCase(modifyBottle.rejected, (state) => {
+      state.error = 'There was an error adding your bottle.';
+      state.loading = false;
+    });
   },
 });
 
-// export const {
-//   selectById: selectBottleById,
-//   selectIds: selectBottleIds,
-//   selectEntities: selectBottleEntities,
-//   selectAll: selectAllBottles,
-//   selectTotal: selectTotalBottles,
-// } = bottlesAdapter.getSelectors((state: RootState) => state.bottleForm);
-// export const selectLoading = (state: RootState): boolean =>
-//   state.bottleForm.loading;
-// export const selectError = (state: RootState): string => state.bottleForm.error;
-export const { setVisibleForm } = bottlesSlice.actions;
+export const { setVisibleForm, setSelectedBottle } = bottlesSlice.actions;
 
-export const { selectAll } = bottlesAdapter.getSelectors(
+const { selectById, selectAll } = bottlesAdapter.getSelectors(
   (state: RootState) => state.bottles
 );
+
+export const selectBottleById = selectById;
+export const selectAllBottles = selectAll;
+
 export const selectLoading = (state: RootState): boolean =>
   state.bottles.loading;
 export const selectError = (state: RootState): string => state.bottles.error;
 export const selectVisibleForm = (state: RootState): boolean =>
   state.bottles.visibleForm;
-export const selectSelectedBottle = (state: RootState): string =>
-  String(state.bottles.selectedBottle);
+export const selectSelectedBottle = (state: RootState): Bottle =>
+  selectById(state, String(state.bottles.selectedBottle));
 
 export default bottlesSlice.reducer;
