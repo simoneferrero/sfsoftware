@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb';
 export interface Bottle {
   _id?: ObjectId;
   category: 'WINE' | 'BEER' | 'SPIRIT';
+  image?: File;
   imageUrl?: string;
   name: string;
   quantity: number;

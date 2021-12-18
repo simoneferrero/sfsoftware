@@ -1,12 +1,30 @@
-import { RootState } from '../../app/store';
-
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useDropzone } from 'react-dropzone';
+
 import { setVisibleForm, addBottle, selectVisibleForm } from '../bottles/slice';
 
 import { Button, Form, Input, Modal, Select } from 'semantic-ui-react';
 
+import styled from 'styled-components';
+
 import { BOTTLE_CATEGORIES } from '../../app/constants/bottleCategories';
+
+const StyledDropzone = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: #eee;
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border 0.24s ease-in-out;
+`;
 
 const SidePanel = () => {
   const [name, setName] = useState('');
@@ -16,8 +34,17 @@ const SidePanel = () => {
   const [volume, setVolume] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [rating, setRating] = useState(0);
+  const [image, setImage] = useState(null);
   const visible = useSelector(selectVisibleForm);
   const dispatch = useDispatch();
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'image/*',
+    maxFiles: 1,
+    onDrop: ([file]) => {
+      setImage(file);
+    },
+  });
 
   const selectedCategory = BOTTLE_CATEGORIES.find(
     ({ value }) => value === category
@@ -31,6 +58,7 @@ const SidePanel = () => {
     setVolume(0);
     setQuantity(0);
     setRating(0);
+    setImage(null);
   };
 
   const handleClose = () => {
@@ -49,6 +77,7 @@ const SidePanel = () => {
       volume,
       quantity,
       rating,
+      image,
     };
 
     dispatch(addBottle({ formValues, resetForm }));
@@ -79,7 +108,9 @@ const SidePanel = () => {
               <Form.Field required>
                 <label>Category</label>
                 <Select
-                  options={BOTTLE_CATEGORIES}
+                  options={BOTTLE_CATEGORIES.map(
+                    ({ showYear, ...category }) => category
+                  )}
                   placeholder="Select a category"
                   value={category}
                   onChange={(e, d) => setCategory(d.value)}
@@ -150,6 +181,16 @@ const SidePanel = () => {
                 />
               </Form.Field>
             </Form.Group>
+            <Form.Field>
+              <StyledDropzone {...getRootProps({ className: 'dropzone' })}>
+                <input {...getInputProps()} />
+                <p>
+                  {image
+                    ? image.name
+                    : 'Drag and drop an image here, or click to select images'}
+                </p>
+              </StyledDropzone>
+            </Form.Field>
           </Form>
         </Modal.Description>
       </Modal.Content>

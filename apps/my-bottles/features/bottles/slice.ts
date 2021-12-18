@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongoose';
 import { Bottle } from '../../types/Bottle';
 import type { RootState } from '../../app/store';
 
@@ -8,7 +9,45 @@ import {
   createSlice,
   EntityState,
 } from '@reduxjs/toolkit';
-import { ObjectId } from 'mongoose';
+import AWS from 'aws-sdk';
+
+const AWS_ACCESS_KEY_ID = process.env.NX_AWS_ACCESS_KEY_ID;
+const AWS_SECRET_ACCESS_KEY = process.env.NX_AWS_SECRET_ACCESS_KEY;
+const AWS_REGION = process.env.NX_AWS_REGION;
+const AWS_BUCKET = process.env.NX_AWS_BUCKET;
+const AWS_S3_DOMAIN = process.env.NX_AWS_S3_DOMAIN;
+
+AWS.config.update({
+  accessKeyId: AWS_ACCESS_KEY_ID,
+  secretAccessKey: AWS_SECRET_ACCESS_KEY,
+});
+
+const myBottlesBucket = new AWS.S3({
+  params: { Bucket: AWS_BUCKET },
+  region: AWS_REGION,
+});
+
+const getS3PutObjectParams = (image, name) => ({
+  ACL: 'public-read',
+  Body: image,
+  Bucket: AWS_BUCKET,
+  Key: name,
+});
+
+const uploadImage = async (image) => {
+  if (!image) return;
+
+  const imageName = `${Date.now()}_${image.name.replaceAll(' ', '_')}`;
+  const uploadedFile = await myBottlesBucket
+    .putObject(getS3PutObjectParams(image, imageName))
+    .promise();
+
+  if (uploadedFile.$response.httpResponse.statusCode !== 200) {
+    throw new Error('Upload failed');
+  }
+
+  return AWS_S3_DOMAIN + imageName;
+};
 
 export const bottlesAdapter = createEntityAdapter<Bottle>({
   selectId: (bottle) => bottle._id.toString(),
@@ -43,12 +82,12 @@ export const addBottle = createAsyncThunk(
     formValues: Bottle;
     resetForm: () => void;
   }) => {
-    //   const imageUrl = await uploadImage(formValues?.images?.[0])
+    const { image, ...values } = formValues;
+    const imageUrl = await uploadImage(image);
 
-    //   const parsedFormValues = parseFormValues(formValues, imageUrl)
     const {
       data: { data },
-    } = await axios.post('/api/bottles', formValues);
+    } = await axios.post('/api/bottles', { ...values, imageUrl });
 
     resetForm();
 
