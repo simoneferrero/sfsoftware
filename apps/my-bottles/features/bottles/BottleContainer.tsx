@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllBottles, getBottles } from './slice';
+import { selectAllBottles, selectLoading, getBottles } from './slice';
 
-import { Card, Header } from 'semantic-ui-react';
+import { Card, Container, Header, Loader } from 'semantic-ui-react';
 import BottleCard from '../../components/BottleCard';
 
 import styled from 'styled-components';
@@ -15,10 +15,19 @@ const StyledBottleContainer = styled(Card.Group)`
 const BottleContainer = () => {
   const dispatch = useDispatch();
   const bottles = useSelector(selectAllBottles);
+  const loading = useSelector(selectLoading);
 
   useEffect(() => {
     dispatch(getBottles());
   }, [dispatch]);
+
+  if (loading) {
+    return (
+      <Container textAlign="center">
+        <Loader size="big">Loading</Loader>
+      </Container>
+    );
+  }
 
   if (!bottles.length) {
     return (

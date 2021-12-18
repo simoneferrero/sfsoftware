@@ -8,9 +8,10 @@ import {
   modifyBottle,
   selectVisibleForm,
   selectSelectedBottle,
+  selectLoading,
 } from '../bottles/slice';
 
-import { Button, Form, Input, Modal, Select } from 'semantic-ui-react';
+import { Button, Form, Input, Loader, Modal, Select } from 'semantic-ui-react';
 
 import styled from 'styled-components';
 
@@ -33,7 +34,11 @@ const StyledDropzone = styled.div`
 `;
 
 const SidePanel = () => {
+  const dispatch = useDispatch();
+
   const selectedBottle = useSelector(selectSelectedBottle);
+  const loading = useSelector(selectLoading);
+
   const [name, setName] = useState('');
   const [category, setCategory] = useState(null);
   const [type, setType] = useState(null);
@@ -43,7 +48,6 @@ const SidePanel = () => {
   const [rating, setRating] = useState(0);
   const [image, setImage] = useState(null);
   const visible = useSelector(selectVisibleForm);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setName(selectedBottle?.name);
@@ -217,11 +221,12 @@ const SidePanel = () => {
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        <Button color="grey" onClick={handleClose}>
+        <Button color="grey" onClick={handleClose} disabled={loading}>
           Cancel
         </Button>
         <Button
-          content="Submit"
+          disabled={loading}
+          content={loading ? 'Loading...' : 'Submit'}
           labelPosition="right"
           icon="checkmark"
           onClick={handleSubmit}

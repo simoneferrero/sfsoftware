@@ -39,7 +39,7 @@ const SidePanel = ({ children }: Props) => {
               avatar
               alt={`${user?.given_name} avatar`}
             />
-            Welcome back, {user?.given_name}!
+            Welcome back, {user?.given_name || user?.nickname}!
           </span>
         </Menu.Header>
         <Menu.Item name="add" onClick={handleAddBottle} position="left">
