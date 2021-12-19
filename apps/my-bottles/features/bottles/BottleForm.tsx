@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone'
 
 import {
   setVisibleForm,
+  setSelectedBottle,
   addBottle,
   modifyBottle,
   selectVisibleForm,
@@ -50,13 +51,15 @@ const SidePanel = () => {
   const visible = useSelector(selectVisibleForm)
 
   useEffect(() => {
-    setName(selectedBottle?.name)
-    setCategory(selectedBottle?.category)
-    setType(selectedBottle?.type)
-    setYear(selectedBottle?.year)
-    setVolume(selectedBottle?.volume)
-    setQuantity(selectedBottle?.quantity)
-    setRating(selectedBottle?.rating)
+    if (selectedBottle) {
+      setName(selectedBottle?.name)
+      setCategory(selectedBottle?.category)
+      setType(selectedBottle?.type)
+      setYear(selectedBottle?.year)
+      setVolume(selectedBottle?.volume)
+      setQuantity(selectedBottle?.quantity)
+      setRating(selectedBottle?.rating)
+    }
   }, [selectedBottle])
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -71,6 +74,15 @@ const SidePanel = () => {
     ({ value }) => value === category
   )
 
+  const disableSubmit =
+    loading ||
+    !name ||
+    !selectedCategory ||
+    (selectedCategory.types && !type) ||
+    (selectedCategory.showYear && year === undefined) ||
+    volume === undefined ||
+    quantity === undefined
+
   const resetForm = () => {
     setName('')
     setCategory(null)
@@ -84,6 +96,7 @@ const SidePanel = () => {
 
   const handleClose = () => {
     resetForm()
+    dispatch(setSelectedBottle(null))
     dispatch(setVisibleForm(false))
   }
 
@@ -115,7 +128,9 @@ const SidePanel = () => {
       onOpen={() => dispatch(setVisibleForm(true))}
       open={visible}
     >
-      <Modal.Header>ADD NEW BOTTLE</Modal.Header>
+      <Modal.Header>
+        {selectedBottle ? `Edit ${selectedBottle.name}` : 'Add a new bottle'}
+      </Modal.Header>
       <Modal.Content>
         <Modal.Description>
           <Form>
@@ -139,12 +154,15 @@ const SidePanel = () => {
                   )}
                   placeholder="Select a category"
                   value={category}
-                  onChange={(e, d) => setCategory(d.value)}
+                  onChange={(e, d) => {
+                    setCategory(d.value)
+                    setType(null)
+                  }}
                   required
                 />
               </Form.Field>
               {selectedCategory?.types && (
-                <Form.Field>
+                <Form.Field required>
                   <label>Type</label>
                   <Select
                     options={selectedCategory?.types}
@@ -158,7 +176,7 @@ const SidePanel = () => {
             </Form.Group>
             <Form.Group widths="equal">
               {selectedCategory?.showYear && (
-                <Form.Field>
+                <Form.Field required>
                   <label>Year</label>
                   <Input
                     placeholder="Year"
@@ -225,7 +243,7 @@ const SidePanel = () => {
           Cancel
         </Button>
         <Button
-          disabled={loading}
+          disabled={disableSubmit}
           content={loading ? 'Loading...' : 'Submit'}
           labelPosition="right"
           icon="checkmark"
