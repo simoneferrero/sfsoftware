@@ -1,11 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import bottlesReducer from '../features/bottles/slice'
-import sidePanelReducer from '../features/sidePanel/sidePanelSlice'
 
 export const store = configureStore({
   reducer: {
     bottles: bottlesReducer,
-    sidePanel: sidePanelReducer,
   },
 })
 

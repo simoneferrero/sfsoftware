@@ -60,7 +60,7 @@ const initialState: EntityState<Bottle> & {
   visibleForm: boolean
   selectedBottle?: ObjectId
 } = bottlesAdapter.getInitialState({
-  loading: false,
+  loading: true,
   error: undefined,
   visibleForm: false,
   selectedBottle: undefined,
