@@ -60,7 +60,13 @@ const BottleCard = ({
         <Rating disabled rating={rating} maxRating={5} />
       </Card.Content>
       <div className="imageContainer">
-        <Image alt={`${name} image`} src={imageUrl} wrapped ui={false} fluid />
+        <Image
+          alt={`${name} image`}
+          src={imageUrl || '/placeholder.jpg'}
+          wrapped
+          ui={false}
+          fluid
+        />
       </div>
       <Card.Content>
         <Card.Header>{name}</Card.Header>
