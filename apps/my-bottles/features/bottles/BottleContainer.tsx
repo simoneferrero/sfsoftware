@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectAllBottles, selectLoading, getBottles } from './slice'
 
-import { Card, Container, Header, Loader } from 'semantic-ui-react'
+import { Card, Container, Header } from 'semantic-ui-react'
 import BottleCard from '../../components/BottleCard'
 
 import styled from 'styled-components'
@@ -22,11 +22,7 @@ const BottleContainer = () => {
   }, [dispatch])
 
   if (loading) {
-    return (
-      <Container textAlign="center">
-        <Loader size="big">Loading</Loader>
-      </Container>
-    )
+    return <Container textAlign="center">Loading...</Container>
   }
 
   if (!bottles.length) {

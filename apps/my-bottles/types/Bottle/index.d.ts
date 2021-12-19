@@ -1,27 +1,23 @@
 import { ObjectId } from 'mongodb'
 
 export interface Bottle {
-  _id?: ObjectId
-  category: 'WINE' | 'BEER' | 'SPIRIT'
-  image?: File
+  _id: Id
+  category: Category
   imageUrl?: string
-  name: string
-  quantity: number
-  rating: number
-  type?: string
-  user?: string
-  volume: number
-  year?: number
+  name: Name
+  quantity: Quantity
+  rating: Rating
+  type?: Type
+  user: string
+  volume: Volume
+  year?: Year
 }
 
-export interface BottleType {
-  text: string
-  value: string
-}
-
-export interface BottleCategory {
-  text: 'Wine' | 'Beer' | 'Spirit'
-  value: 'WINE' | 'BEER' | 'SPIRIT'
-  showYear?: boolean
-  types?: BottleType[]
-}
+export type Id = ObjectId
+export type Category = 'WINE' | 'BEER' | 'SPIRIT'
+export type Name = string
+export type Quantity = number
+export type Rating = number
+export type Type = string
+export type Volume = number
+export type Year = number

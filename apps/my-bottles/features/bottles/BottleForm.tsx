@@ -11,7 +11,7 @@ import {
   selectLoading,
 } from '../bottles/slice'
 
-import { Button, Form, Input, Loader, Modal, Select } from 'semantic-ui-react'
+import { Button, Form, Input, Modal, Select } from 'semantic-ui-react'
 
 import styled from 'styled-components'
 
