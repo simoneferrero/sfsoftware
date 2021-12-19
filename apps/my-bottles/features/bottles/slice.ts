@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongoose'
 import { Bottle } from '../../types/Bottle'
+import { BottleForm } from '../../types/BottleForm'
 import type { RootState } from '../../app/store'
 
 import axios from 'axios'
@@ -79,7 +80,7 @@ export const addBottle = createAsyncThunk(
     formValues,
     resetForm,
   }: {
-    formValues: Bottle
+    formValues: BottleForm
     resetForm: () => void
   }) => {
     const { image, ...values } = formValues
@@ -101,7 +102,7 @@ export const modifyBottle = createAsyncThunk(
     formValues,
     resetForm,
   }: {
-    formValues: Bottle
+    formValues: BottleForm
     resetForm: () => void
   }) => {
     const { _id, image, ...values } = formValues
@@ -167,7 +168,7 @@ export const bottlesSlice = createSlice({
       state.selectedBottle = undefined
     })
     builder.addCase(modifyBottle.rejected, (state) => {
-      state.error = 'There was an error adding your bottle.'
+      state.error = 'There was an error updating your bottle.'
       state.loading = false
     })
   },

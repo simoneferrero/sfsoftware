@@ -1,4 +1,4 @@
-import { BottleType, BottleCategory } from '../../types/Bottle'
+import { BottleType, BottleCategory } from '../../types/BottleForm'
 
 export const WINE_TYPES: BottleType[] = [
   {
