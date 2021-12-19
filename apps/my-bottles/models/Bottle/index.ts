@@ -10,7 +10,7 @@ const BottleSchema = new mongoose.Schema<Bottle>({
   rating: { type: Number, min: 0, max: 5, default: 0 },
   type: String,
   user: { type: String, required: true },
-  volume: { type: String, required: true },
+  volume: { type: Number, required: true },
   year: { type: Number, max: new Date().getFullYear() },
 })
 

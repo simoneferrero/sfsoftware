@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from 'mongoose'
 
 const MONGODB_URI = process.env.MONGODB_URI
@@ -13,11 +14,11 @@ if (!MONGODB_URI) {
  * in development. This prevents connections growing exponentially
  * during API Route usage.
  */
-let cached = global.mongoose
+let cached = (global as any).mongoose
 
 if (!cached) {
-  global.mongoose = { conn: null, promise: null }
-  cached = global.mongoose
+  ;(global as any).mongoose = { conn: null, promise: null }
+  cached = (global as any).mongoose
 }
 
 async function dbConnect() {

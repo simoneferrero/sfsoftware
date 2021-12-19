@@ -12,6 +12,7 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "^1.6.1",
     "@nrwl/next": "13.3.2",
+    "@nrwl/nx-cloud": "^13.0.0",
     "@reduxjs/toolkit": "^1.7.0",
     "aws-sdk": "^2.1046.0",
     "axios": "^0.24.0",
