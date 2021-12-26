@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useDropzone } from 'react-dropzone'
 
 import {
   setVisibleForm,
@@ -12,86 +11,35 @@ import {
   selectLoading,
 } from '../bottles/slice'
 
-import { Button, Form, Input, Modal, Select } from 'semantic-ui-react'
-
-import styled from 'styled-components'
+import { Button, Form, Modal } from 'semantic-ui-react'
+import FormDropzone from '../../components/FormDropzone'
+import FormInput from '../../components/FormInput'
+import FormSelect from '../../components/FormSelect'
 
 import { BOTTLE_CATEGORIES } from '../../app/constants/bottleCategories'
 
-const StyledDropzone = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  border-width: 2px;
-  border-radius: 2px;
-  border-color: #eee;
-  border-style: dashed;
-  background-color: #fafafa;
-  color: #bdbdbd;
-  outline: none;
-  transition: border 0.24s ease-in-out;
-`
+const initialValues = {
+  name: '',
+  category: null,
+  type: null,
+  year: new Date().getFullYear(),
+  volume: 0,
+  quantity: 0,
+  rating: 0,
+  image: null,
+}
 
 const SidePanel = () => {
   const dispatch = useDispatch()
 
   const selectedBottle = useSelector(selectSelectedBottle)
   const loading = useSelector(selectLoading)
-
-  const [name, setName] = useState('')
-  const [category, setCategory] = useState(null)
-  const [type, setType] = useState(null)
-  const [year, setYear] = useState(new Date().getFullYear())
-  const [volume, setVolume] = useState(0)
-  const [quantity, setQuantity] = useState(0)
-  const [rating, setRating] = useState(0)
-  const [image, setImage] = useState(null)
   const visible = useSelector(selectVisibleForm)
 
-  useEffect(() => {
-    if (selectedBottle) {
-      setName(selectedBottle?.name)
-      setCategory(selectedBottle?.category)
-      setType(selectedBottle?.type)
-      setYear(selectedBottle?.year)
-      setVolume(selectedBottle?.volume)
-      setQuantity(selectedBottle?.quantity)
-      setRating(selectedBottle?.rating)
-    }
-  }, [selectedBottle])
-
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
-    maxFiles: 1,
-    onDrop: ([file]) => {
-      setImage(file)
-    },
-  })
-
-  const selectedCategory = BOTTLE_CATEGORIES.find(
-    ({ value }) => value === category
-  )
-
-  const disableSubmit =
-    loading ||
-    !name ||
-    !selectedCategory ||
-    (selectedCategory.types && !type) ||
-    (selectedCategory.showYear && year === undefined) ||
-    volume === undefined ||
-    quantity === undefined
+  const [formValues, setFormValues] = useState(initialValues)
 
   const resetForm = () => {
-    setName('')
-    setCategory(null)
-    setType(null)
-    setYear(0)
-    setVolume(0)
-    setQuantity(0)
-    setRating(0)
-    setImage(null)
+    setFormValues(initialValues)
   }
 
   const handleClose = () => {
@@ -100,27 +48,46 @@ const SidePanel = () => {
     dispatch(setVisibleForm(false))
   }
 
+  const handleChange = (key, value) =>
+    setFormValues((prevValues) => ({ ...prevValues, [key]: value }))
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const formValues = {
+    const updatedFormValues = {
+      ...formValues,
       _id: selectedBottle?._id,
-      name,
-      category,
-      volume,
-      quantity,
-      rating,
-      ...(selectedCategory.types && { type }),
-      ...(selectedCategory.showYear && { year }),
-      ...(image && { image }),
+      type: selectedCategory.types ? formValues.type : null,
+      year: selectedCategory.showYear ? formValues.year : null,
     }
 
     dispatch(
       selectedBottle
-        ? modifyBottle({ formValues, resetForm })
-        : addBottle({ formValues, resetForm })
+        ? modifyBottle({ formValues: updatedFormValues, resetForm })
+        : addBottle({ formValues: updatedFormValues, resetForm })
     )
   }
+
+  useEffect(() => {
+    if (selectedBottle) {
+      Object.keys(initialValues).forEach((key) => {
+        handleChange(key, selectedBottle[key])
+      })
+    }
+  }, [selectedBottle])
+
+  const selectedCategory = BOTTLE_CATEGORIES.find(
+    ({ value }) => value === formValues.category
+  )
+
+  const disableSubmit =
+    loading ||
+    !formValues.name ||
+    !selectedCategory ||
+    (selectedCategory.types && !formValues.type) ||
+    (selectedCategory.showYear && formValues.year === undefined) ||
+    formValues.volume === undefined ||
+    formValues.quantity === undefined
 
   return (
     <Modal
@@ -135,106 +102,117 @@ const SidePanel = () => {
         <Modal.Description>
           <Form>
             <Form.Group widths="equal">
-              <Form.Field required>
-                <label>Name</label>
-                <Input
-                  placeholder="Name"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </Form.Field>
+              <FormInput
+                handleChange={({ target: { value } }) =>
+                  handleChange('name', value)
+                }
+                id="name"
+                label="Name"
+                placeholder="Name"
+                required
+                value={formValues.name}
+              />
             </Form.Group>
             <Form.Group widths="equal">
-              <Form.Field required>
-                <label>Category</label>
-                <Select
-                  options={BOTTLE_CATEGORIES.map(
-                    ({ showYear, ...category }) => category
-                  )}
-                  placeholder="Select a category"
-                  value={category}
-                  onChange={(e, d) => {
-                    setCategory(d.value)
-                    setType(null)
-                  }}
-                  required
-                />
-              </Form.Field>
+              <FormSelect
+                handleChange={(e, d) => {
+                  setFormValues((prevValues) => ({
+                    ...prevValues,
+                    category: d.value,
+                    type: selectedBottle?.type || null,
+                    year: selectedBottle?.year || initialValues.year,
+                  }))
+                }}
+                id="category"
+                label="Category"
+                options={BOTTLE_CATEGORIES.map(
+                  ({ showYear, ...category }) => category
+                )}
+                placeholder="Select a category"
+                required
+                value={formValues.category}
+              />
               {selectedCategory?.types && (
-                <Form.Field required>
-                  <label>Type</label>
-                  <Select
-                    options={selectedCategory?.types}
-                    placeholder="Select a type"
-                    value={type}
-                    onChange={(e, d) => setType(d.value)}
-                    required
-                  />
-                </Form.Field>
+                <FormSelect
+                  handleChange={(e, d) => {
+                    handleChange('type', d.value)
+                  }}
+                  id="type"
+                  label="Type"
+                  options={selectedCategory?.types}
+                  placeholder="Select a type"
+                  required
+                  value={formValues.type}
+                />
               )}
             </Form.Group>
             <Form.Group widths="equal">
               {selectedCategory?.showYear && (
-                <Form.Field required>
-                  <label>Year</label>
-                  <Input
-                    placeholder="Year"
-                    required
-                    value={year}
-                    onChange={(e) => setYear(Number(e.target.value))}
-                    type="number"
-                    max={new Date().getFullYear()}
-                  />
-                </Form.Field>
+                <FormInput
+                  handleChange={({ target: { value } }) =>
+                    handleChange('year', Number(value))
+                  }
+                  id="year"
+                  label="Year"
+                  max={new Date().getFullYear()}
+                  placeholder="Year"
+                  required
+                  type="number"
+                  value={String(formValues.year)}
+                />
               )}
-              <Form.Field required>
-                <label>Volume</label>
-                <Input
-                  placeholder="Volume"
-                  required
-                  value={volume}
-                  onChange={(e) => setVolume(Number(e.target.value))}
-                  type="number"
-                  min={0}
-                  max={100}
-                />
-              </Form.Field>
-              <Form.Field required>
-                <label>Quantity</label>
-                <Input
-                  placeholder="Quantity"
-                  required
-                  value={quantity}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
-                  type="number"
-                  min={0}
-                  max={10000}
-                />
-              </Form.Field>
-              <Form.Field>
-                <label>Rating</label>
-                <Input
-                  placeholder="Rating"
-                  required
-                  value={rating}
-                  onChange={(e) => setRating(Number(e.target.value))}
-                  type="number"
-                  min={0}
-                  max={5}
-                />
-              </Form.Field>
+              <FormInput
+                handleChange={({ target: { value } }) =>
+                  handleChange('volume', Number(value))
+                }
+                id="volume"
+                label="Volume"
+                max={100}
+                min={0}
+                placeholder="Volume"
+                required
+                type="number"
+                value={String(formValues.volume)}
+              />
+              <FormInput
+                handleChange={({ target: { value } }) =>
+                  handleChange('quantity', Number(value))
+                }
+                id="quantity"
+                label="Quantity"
+                max={10000}
+                min={0}
+                placeholder="Quantity"
+                required
+                type="number"
+                value={String(formValues.quantity)}
+              />
+              <FormSelect
+                handleChange={(e, d) => {
+                  handleChange('rating', Number(d.value))
+                }}
+                id="rating"
+                label="Rating"
+                options={[...Array(6).keys()].map((rating) => ({
+                  text: <p>{rating} stars</p>,
+                  value: String(rating),
+                }))}
+                placeholder="Select a rating"
+                required
+                value={String(formValues.rating)}
+              />
             </Form.Group>
-            <Form.Field>
-              <StyledDropzone {...getRootProps({ className: 'dropzone' })}>
-                <input {...getInputProps()} />
-                <p>
-                  {image
-                    ? image.name
-                    : 'Drag and drop an image here, or click to select one from your device'}
-                </p>
-              </StyledDropzone>
-            </Form.Field>
+            <FormDropzone
+              file={formValues.image}
+              options={{
+                accept: 'image/*',
+                maxFiles: 1,
+                onDrop: ([file]) => {
+                  handleChange('image', file)
+                },
+              }}
+              placeholder="Drag and drop an image here, or click to select one from your device"
+            />
           </Form>
         </Modal.Description>
       </Modal.Content>
