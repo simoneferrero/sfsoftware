@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
+import { setVisibleForm, setSelectedBottle } from '../bottles/slice'
+import { addBottle, modifyBottle } from '../bottles/async'
 import {
-  setVisibleForm,
-  setSelectedBottle,
-  addBottle,
-  modifyBottle,
   selectVisibleForm,
   selectSelectedBottle,
   selectLoading,
-} from '../bottles/slice'
+} from '../bottles/selectors'
 
 import { Button, Form, Modal } from 'semantic-ui-react'
 import FormDropzone from '../../components/FormDropzone'

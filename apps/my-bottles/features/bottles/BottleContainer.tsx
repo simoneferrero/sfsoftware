@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectAllBottles, selectLoading, getBottles } from './slice'
+import { getBottles } from './async'
+import { selectAllBottles, selectLoading } from './selectors'
 
 import { Card, Container, Header } from 'semantic-ui-react'
 import BottleCard from '../../components/BottleCard'
