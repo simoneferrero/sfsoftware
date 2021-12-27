@@ -1,4 +1,4 @@
-import render from '../helpers/testHelpers'
+import { render } from '../utils/test-utils'
 
 import Index from '../pages/index'
 

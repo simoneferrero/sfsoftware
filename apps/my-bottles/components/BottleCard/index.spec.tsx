@@ -1,6 +1,5 @@
-import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import render from '../../helpers/testHelpers'
+import { render, screen } from '../../utils/test-utils'
 
 import * as actions from '../../features/bottles/slice'
 

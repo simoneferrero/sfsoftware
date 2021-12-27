@@ -1,12 +1,11 @@
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import {
+  render,
   screen,
   waitForElementToBeRemoved,
   within,
-} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import render from '../../helpers/testHelpers'
+} from '../../utils/test-utils'
 
 import BottleContainer from './BottleContainer'
 

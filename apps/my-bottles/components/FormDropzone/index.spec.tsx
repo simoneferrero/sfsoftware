@@ -1,6 +1,5 @@
-import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import render from '../../helpers/testHelpers'
+import { render, screen, waitFor } from '../../utils/test-utils'
 
 import FormDropzone from '.'
 
