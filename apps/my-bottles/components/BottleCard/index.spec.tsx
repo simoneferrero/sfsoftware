@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongodb'
-
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import render from '../../helpers/testHelpers'
@@ -60,7 +58,7 @@ describe('Given <BottleCard />', () => {
   ]
 
   testCases.forEach(({ bottle, descriptionText }) => {
-    it(`should render a ${bottle.category} correctly`, async () => {
+    it(`should render a ${bottle.category} correctly`, () => {
       render(<BottleCard {...bottle} />)
 
       const { getAllByRole, getByAltText, getByText, getByLabelText } = screen
@@ -87,7 +85,7 @@ describe('Given <BottleCard />', () => {
   })
 
   describe('When the bottle has NO image', () => {
-    it('should render the placeholder image correctly', async () => {
+    it('should render the placeholder image correctly', () => {
       const bottle = {
         _id: '61c8704eb610a03f9e6f5e0z',
         category: 'SPIRIT',

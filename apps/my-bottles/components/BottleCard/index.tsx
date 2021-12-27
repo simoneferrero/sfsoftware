@@ -55,7 +55,7 @@ const BottleCard = ({
   }${bottleLocales[category]}`
 
   return (
-    <StyledCard>
+    <StyledCard data-testid="bottleCard">
       <Card.Content textAlign="center">
         <Rating disabled rating={rating} maxRating={5} />
       </Card.Content>

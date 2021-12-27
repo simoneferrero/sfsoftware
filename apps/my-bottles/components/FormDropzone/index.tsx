@@ -34,7 +34,7 @@ const FormDropzone = ({ file, options, placeholder }: Props) => {
   return (
     <Form.Field>
       <StyledDropzone {...getRootProps({ className: 'dropzone' })}>
-        <input {...getInputProps()} />
+        <input {...getInputProps()} aria-label="File Upload" />
         <p>{file ? file.name : placeholder}</p>
       </StyledDropzone>
     </Form.Field>
