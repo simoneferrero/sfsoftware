@@ -77,6 +77,7 @@ const BottleCard = ({
           <p>{quantity}x</p>
           <p>{volume}%</p>
           <Button
+            aria-label={`Edit ${name}`}
             icon="pencil"
             circular
             basic

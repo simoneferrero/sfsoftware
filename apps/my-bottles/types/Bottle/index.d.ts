@@ -13,8 +13,8 @@ export interface Bottle {
   year?: Year
 }
 
-export type Id = ObjectId
-export type Category = 'WINE' | 'BEER' | 'SPIRIT'
+export type Id = ObjectId | string
+export type Category = string
 export type Name = string
 export type Quantity = number
 export type Rating = number
