@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '../../app/hooks/redux'
 
 import { setVisibleForm, setSelectedBottle } from '../bottles/slice'
 import { addBottle, modifyBottle } from '../bottles/async'
@@ -28,11 +28,11 @@ const initialValues = {
 }
 
 const SidePanel = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const selectedBottle = useSelector(selectSelectedBottle)
-  const loading = useSelector(selectLoading)
-  const visible = useSelector(selectVisibleForm)
+  const selectedBottle = useAppSelector(selectSelectedBottle)
+  const loading = useAppSelector(selectLoading)
+  const visible = useAppSelector(selectVisibleForm)
 
   const [formValues, setFormValues] = useState(initialValues)
 

@@ -1,6 +1,6 @@
 import { Bottle } from '../../types/Bottle'
 
-import { useDispatch } from 'react-redux'
+import { useAppDispatch } from '../../app/hooks/redux'
 
 import { setSelectedBottle } from '../../features/bottles/slice'
 
@@ -48,7 +48,7 @@ const BottleCard = ({
   volume,
   year,
 }: Bottle) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const description = `${year ? year + ' ' : ''}${
     type ? bottleLocales[type] + ' ' : ''

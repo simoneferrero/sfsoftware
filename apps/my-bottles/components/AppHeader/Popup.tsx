@@ -21,10 +21,9 @@ const AppHeaderPopup = ({ user }: Props) => (
     on="click"
     trigger={
       <Button
+        aria-label="User Menu"
         className="userBtn"
-        icon={
-          <Image src={user.picture} avatar alt="User picture" size="mini" />
-        }
+        icon={<Image src={user.picture} avatar alt="User Image" size="mini" />}
       ></Button>
     }
   />

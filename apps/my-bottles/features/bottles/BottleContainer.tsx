@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '../../app/hooks/redux'
 import { getBottles } from './async'
 import { selectAllBottles, selectLoading } from './selectors'
 
@@ -14,9 +14,9 @@ const StyledBottleContainer = styled(Card.Group)`
 `
 
 const BottleContainer = () => {
-  const dispatch = useDispatch()
-  const bottles = useSelector(selectAllBottles)
-  const loading = useSelector(selectLoading)
+  const dispatch = useAppDispatch()
+  const bottles = useAppSelector(selectAllBottles)
+  const loading = useAppSelector(selectLoading)
 
   useEffect(() => {
     dispatch(getBottles())

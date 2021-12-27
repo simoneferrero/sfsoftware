@@ -1,5 +1,5 @@
 import { useUser } from '@auth0/nextjs-auth0'
-import { useDispatch } from 'react-redux'
+import { useAppDispatch } from '../../app/hooks/redux'
 
 import { setVisibleForm } from '../../features/bottles/slice'
 
@@ -58,7 +58,7 @@ const StyledHeader = styled.header`
 `
 
 const AppHeader = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { user } = useUser()
 
   return (
@@ -66,6 +66,7 @@ const AppHeader = () => {
       <div className="addBtnContainer">
         {user && (
           <Button
+            aria-label="Add Bottle"
             circular
             icon="add"
             size="medium"
